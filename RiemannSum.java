@@ -1,5 +1,6 @@
 
 import java.util.Stack;
+import java.util.Scanner;
 public class RiemannSum {
 
 	public static double sum(String expression,int start, int end, int n) {
@@ -136,9 +137,21 @@ public class RiemannSum {
 	
 
 	public static void main(String args[]) {
+		Scanner a = new Scanner(System.in);
+		System.out.print("type in an expression: ");
+		
+		String e = a.nextLine();
 
-		String e = "3 / x";
-	System.out.println((sum("3 / x", 1, 2, 4)));
+		System.out.println();
+		System.out.print("type in the endpoints: ");
+
+		int b = a.nextInt();
+		System.out.print("type in next endpoint: ");
+		int c = a.nextInt();
+		System.out.println();
+		System.out.print("type in the number of rectangles: ");
+		int d = a.nextInt();
+	System.out.println((sum(e, b, c, d)));
 	}
 
 
