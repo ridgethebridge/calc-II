@@ -25,7 +25,8 @@ public class RiemannSum {
 
 		// x^2-5*x+3 input 2
 	double result = 0.0;
-		String e[] = expression.split(" ");
+		String e[] = spaced(expression).split("[\\s]+");
+
 		
 		Stack<Character> opStack = new Stack<Character>();
 		Stack<Double> numStack = new Stack<Double>();
@@ -113,7 +114,7 @@ public class RiemannSum {
 		n.push(temp);
 	}
 
-	/* work in progress
+	// to put whitespace between operators
 	public static String spaced(String s) {
 		String a = "";
 		for(int i = 0; i < s.length(); i++) {
@@ -133,7 +134,6 @@ public class RiemannSum {
 	return a;
 	}
 	
-*/
 	
 
 	public static void main(String args[]) {
@@ -143,14 +143,15 @@ public class RiemannSum {
 		String e = a.nextLine();
 
 		System.out.println();
-		System.out.print("type in the endpoints: ");
+		System.out.print("type in the start point: ");
 
 		int b = a.nextInt();
-		System.out.print("type in next endpoint: ");
+		System.out.print("type in the endpoint: ");
 		int c = a.nextInt();
 		System.out.println();
 		System.out.print("type in the number of rectangles: ");
 		int d = a.nextInt();
+		System.out.print("the area under this curve is: ");
 	System.out.println((sum(e, b, c, d)));
 	}
 
