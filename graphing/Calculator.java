@@ -89,7 +89,6 @@ public static double calculate(String string) {
 			}
 
 		}
-		System.out.println(s);
 
 				// do stuff for numbers
 		}
