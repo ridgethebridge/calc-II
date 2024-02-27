@@ -13,10 +13,6 @@ public class RiemannSum {
 
 		result *= deltaX;
 
-
-
-
-
 		return result;
 	}
 
