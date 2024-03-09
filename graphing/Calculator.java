@@ -2,6 +2,12 @@
 /*
  * fix some of the exponent workings
  * doesnt work fully with parenthesis
+ * add functionality for negative numbers, fix the spacing method
+ *
+ *
+ *write a simple program that recognzies negative numbers
+ *
+ *
  */
 
 import java.util.Stack;
@@ -128,12 +134,26 @@ private static void compute(Stack<Character> op, Stack<Double> val) {
 
 private static String space(String e) {
 
+	//5--5
 	String result = "";
-	for(int i = 0; i < e.length(); i++) {
-		char c = e.charAt(i);
+	// gets rid of double negs
+	String temp = e.trim().replaceAll("--","+");
+
+	// only pluses now
+	while(temp.indexOf("++") !=-1) 
+		temp = temp.replaceAll("++","+");
+
+
+	for(int i = 0; i < temp.length(); i++) {
+		char c = temp.charAt(i);
 		switch(c) {
-			case '+':
 			case '-':
+				if(i == 0 || (temp.charAt(i-1)>=40 && temp.charAt(i-1) <= 43) || temp.charAt(i-1) == '/') {
+					result+=c+"";
+				continue;
+				}
+
+			case '+':
 			case '*':
 			case '/':
 			case '(':
@@ -144,6 +164,7 @@ private static String space(String e) {
 	}
 	result += c +"";
 }
+System.out.println(result);
 	return result;
 }
 
