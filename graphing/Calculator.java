@@ -16,7 +16,6 @@ public class Calculator {
 
 	//calculates string expressions and returns double value
 public static double calculate(String string) {
-	boolean parExp = false;
 
 	Stack<Character> opStack = new Stack<Character>();
 	Stack<Double> numStack = new Stack<Double>();
@@ -36,68 +35,61 @@ public static double calculate(String string) {
 					opStack.push(c);
 				continue;
 			case '-':
+				if(s.length() > 1) {
+					numStack.push(Double.parseDouble(s));
+					continue;
+					
+				}
+				else {
 				while(!opStack.isEmpty() && opStack.peek() !='(') {
 					compute(opStack,numStack);
 				}
+				
 					opStack.push(c);
+				
 				continue;
+				}
 			case '*':
-				while(!opStack.isEmpty() && (opStack.peek() == '*' || opStack.peek() == '/') && opStack.peek() !='(') {
+				while(!opStack.isEmpty() && (opStack.peek() == '*' || opStack.peek() == '/' || opStack.peek() == '^') && opStack.peek() !='(') {
 					compute(opStack,numStack);
 				}
 					opStack.push(c);
 				continue;
 			case '/':
-				while(!opStack.isEmpty() && (opStack.peek() == '*' || opStack.peek() == '/') && opStack.peek() !='(') {
+				while(!opStack.isEmpty() && (opStack.peek() == '*' || opStack.peek() == '/' || opStack.peek() == '^') && opStack.peek() !='(') {
 					compute(opStack,numStack);
 				}
 					opStack.push(c);
 				continue;
 
 			case '(':
-				if(!opStack.isEmpty() && opStack.peek() == '^' ) {
-				parExp = true;
-				}
 				opStack.push(c);
 				continue;
+
 			case ')':
 				while(!opStack.isEmpty() && opStack.peek() != '(') {
 					compute(opStack,numStack);
 				}
 				opStack.pop();
-				if(!opStack.isEmpty() && opStack.peek() == '^' && parExp) {
-					double d1 = numStack.pop();
-					double d2 = numStack.pop();
 
-			numStack.push(Math.pow(d2,d1));
-			opStack.pop();
-				}
+				
 				continue;
 			case '^':
 				opStack.push(c);
 				continue;
-
 		}
-		if(opStack.isEmpty()) {
+
+	
+		
+
+		// 5 + 9^(2+2) - 6 * 4
+		// 5 + 9^4 - 6 * 4
+
 		numStack.push(Double.parseDouble(s));
-
-		}
-
-		else if(opStack.peek() != '^') {
-
-		numStack.push(Double.parseDouble(s));
-			}
-
-		else {
-			if(!parExp) {
-			numStack.push(Math.pow(numStack.pop(),Double.parseDouble(s)));
-			opStack.pop();
-			}
-
-		}
+	}
 
 				// do stuff for numbers
-		}
+		
 	while(!opStack.isEmpty())
 		compute(opStack,numStack);
 
@@ -125,7 +117,9 @@ private static void compute(Stack<Character> op, Stack<Double> val) {
 				val.push(d2/d1);
 				
 				break;
-
+			case '^':
+				val.push(Math.pow(d2,d1));
+						break;
 	}
 }
 
@@ -134,21 +128,21 @@ private static void compute(Stack<Character> op, Stack<Double> val) {
 
 private static String space(String e) {
 
-	//5--5
 	String result = "";
 	// gets rid of double negs
-	String temp = e.trim().replaceAll("--","+");
+	String temp = e.replaceAll("\\s+","").replaceAll("--","\\+");
 
 	// only pluses now
 	while(temp.indexOf("++") !=-1) 
-		temp = temp.replaceAll("++","+");
+		temp = temp.replaceAll("\\+\\+","\\+");
 
 
+	// -5 - -5
 	for(int i = 0; i < temp.length(); i++) {
 		char c = temp.charAt(i);
 		switch(c) {
 			case '-':
-				if(i == 0 || (temp.charAt(i-1)>=40 && temp.charAt(i-1) <= 43) || temp.charAt(i-1) == '/') {
+				if(i == 0 || (temp.charAt(i-1) == '+' || temp.charAt(i-1) == '*' || temp.charAt(i-1) == '/' || temp.charAt(i-1) == '^')) {
 					result+=c+"";
 				continue;
 				}
